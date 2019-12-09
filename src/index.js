@@ -1,21 +1,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import './index.css';
 
 class Square extends React.Component {
+
+	constructor(props){
+		super(props);
+		this.state = {
+			posicaoElemento: null
+		}
+	}
+
   render() {
     return (
-      <button className="square">
-        {/* TODO */}
+			<button
+				className="square"
+				onClick={() => { this.setState({ posicaoElemento: 'X' }); }}
+			>
+        {this.state.posicaoElemento}
       </button>
     );
   }
 }
 
 class Board extends React.Component {
-  renderSquare(i) {
-		console.log(`Variável 'i' que não sei quando usaremos vale: ${i}`);
-    return <Square />;
+  renderSquare(posicaoElemento) {
+    return <Square posicaoElemento={posicaoElemento}/>;
   }
 
   render() {
@@ -66,3 +77,7 @@ ReactDOM.render(
   <Game />,
   document.getElementById('root')
 );
+
+Square.propTypes = {
+	posicaoElemento: PropTypes.number.isRequired
+};
