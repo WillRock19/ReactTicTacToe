@@ -4,9 +4,12 @@
   "description": "Game develop for React's study porposes",
   "main": "index.js",
   "scripts": {
+    "build": "react-scripts build",
+    "eject": "react-scripts eject",
     "lint": "./node_modules/.bin/eslint src/*.js",
     "prepush": "npm run lint",
-    "test": "echo \"Error: no test specified\" && exit 1"
+		"start": "react-scripts start",
+		"test": "react-scripts test"
   },
   "repository": {
     "type": "git",
@@ -31,6 +34,9 @@
     "@testing-library/user-event": "^7.1.2",
     "eslint": "^6.7.2",
     "eslint-plugin-react": "^7.17.0",
-    "husky": "^3.1.0"
+    "husky": "^3.1.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-scripts": "^3.3.0"
   }
 }
