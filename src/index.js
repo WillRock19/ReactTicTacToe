@@ -3,30 +3,38 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import './index.css';
 
-class Square extends React.Component {
-
-	constructor(props){
-		super(props);
-		this.state = {
-			posicaoElemento: null
-		}
-	}
-
-  render() {
-    return (
-			<button
-				className="square"
-				onClick={() => { this.setState({ posicaoElemento: 'X' }); }}
-			>
-        {this.state.posicaoElemento}
-      </button>
-    );
-  }
+function Square(props) {
+	return (
+		<button
+			className="square"
+			onClick={ props.onClick }
+		>
+			{ props.value }
+		</button>
+	);
 }
 
 class Board extends React.Component {
-  renderSquare(posicaoElemento) {
-    return <Square posicaoElemento={posicaoElemento}/>;
+
+	constructor(){
+		super();
+		this.state = {
+			squaresValues: Array(9).fill(null)
+		}
+	}
+
+	updateSquareValue(elementPosition) {
+		const newSquareList = this.state.squaresValues.slice();
+		newSquareList[elementPosition] = 'X';
+
+		this.setState({ squaresValues: newSquareList });
+	}
+
+  renderSquare(elementPosition) {
+		return <Square
+			value={this.state.squaresValues[elementPosition]}
+			onClick={() => this.updateSquareValue(elementPosition)}
+		/>;
   }
 
   render() {
@@ -79,5 +87,10 @@ ReactDOM.render(
 );
 
 Square.propTypes = {
-	posicaoElemento: PropTypes.number.isRequired
+	value: PropTypes.string,
+	onClick: PropTypes.func.isRequired
 };
+
+
+//https://pt-br.reactjs.org/docs/optimizing-performance.html#examples
+
