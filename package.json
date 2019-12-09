@@ -4,8 +4,9 @@
   "description": "Game develop for React's study porposes",
   "main": "index.js",
   "scripts": {
-		"lint": "./node_modules/.bin/eslint src/*.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "./node_modules/.bin/eslint src/*.js",
+		"prepush": "npm run lint",
+		"test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
   "homepage": "https://github.com/WillRock19/ReactTicTacToe#readme",
   "devDependencies": {
     "eslint": "^6.7.2",
-    "eslint-plugin-react": "^7.17.0"
+    "eslint-plugin-react": "^7.17.0",
+    "husky": "^3.1.0"
   }
 }
