@@ -14,6 +14,28 @@ function Square(props) {
 	);
 }
 
+function CalculateWinner(boardSquares){
+	const markedCombinationsToGaveVictory = [
+		[0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+	];
+
+	for(const combination of markedCombinationsToGaveVictory)	{
+		const [a, b, c] = combination;
+    if (boardSquares[a] && boardSquares[a] === boardSquares[b] && boardSquares[a] === boardSquares[c]) {
+      return boardSquares[a];
+    }
+	}
+
+	return null;
+}
+
 class Board extends React.Component {
 
 	constructor(){
@@ -30,8 +52,12 @@ class Board extends React.Component {
 
 	updateSquareValue(elementPosition) {
 		const newSquareList = this.state.squaresValues.slice();
-		newSquareList[elementPosition] = this.defineNextPlayer();
 
+		if (CalculateWinner(newSquareList)) {
+      return;
+		}
+
+		newSquareList[elementPosition] = this.defineNextPlayer();
 		this.setState({ squaresValues: newSquareList, xIsNext: !this.state.xIsNext });
 	}
 
@@ -43,7 +69,8 @@ class Board extends React.Component {
   }
 
   render() {
-    const status = `Next player: ${this.defineNextPlayer()}`;
+		const winner = CalculateWinner(this.state.squaresValues);
+		const status = winner ? `Winner: ${winner}` : `Next player: ${(this.state.xIsNext ? 'X' : 'O')}`;
 
     return (
       <div>
