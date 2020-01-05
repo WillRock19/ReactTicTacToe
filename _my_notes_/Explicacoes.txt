@@ -1,0 +1,232 @@
+
+
+
+																			REACT FUNDAMENTALS
+																			
+	JSX: linguagem especial do REACT que ele transpila para Javascript;
+	
+	
+	0. ARQUITETURA
+	
+		Uma arquitetura REACT é constituída de um conjunto de componentes, e possuem dois tipos de input:
+		
+			Properties:
+			
+			State: Diferente de propriedades, eles podem mudar (por isso, devem ser evitados para mantermos a simplicidade);
+			
+		A união de propriedades e estados criam um modelo, e a renderização desse modelo gera o objeto do DOM de sua aplicação web. Assim:
+		
+														Prop + State + render => DOM
+														
+		Todos esses elementos juntos formam um componente.
+		
+		ATUALIZAÇÕES DO DOM
+		
+			O REACT mantém uma versão virtual dos documentos do DOM... assim, qualquer alteração do state faz com que ele renderize um novo documento virtual, o que é muito mais rápido do	que renderizar um objeto real na tela.
+		
+			A partir disso, o REACT compara esse documento virtual (fake) com o real, encontrando a forma mais simples de atualizar o real da maneira mais performática possível.
+			
+	
+	1. COMPONENTS
+	
+		Cada componente representa um elemento do DOM, e eles são responsáveis por lidar com quaisquer eventos que ocorram dentro de si mesmos;
+		
+		Componentes podem ser alocados dentro de outros componentes;
+		
+		Dentro de um componente, na parte em que escrevemos em HTML, usamos {} para interpolar valores que serão retirados do JAVASCRIPT
+		
+		
+	II. PROPS
+		
+		Props são uma forma dos componentes React armazenarem valores, e refletem os valores passados por um componente pai para seu filho;
+		
+		JSX pode ter dois tipos de elementos: tags simples de HTML (representadas com letra minúscula) e "user-defined elements", que são elementos definidos pela linguagem, como o <Sum />, geralmente descritos com letra maiúscula
+		
+		Exemplo:
+		
+			function Sum(props){
+				return(
+					<h1>{props.a} + {props.b} = {props.a + props.b}</h1>
+				);
+			}
+			
+			ReactDOM.render(<Sum a={4}, b={2}>) />, document.getElementById('root'));
+			
+		Devem ser usados sempre que possível, pois são mais concisas e encorajam um melhor design na aplicação;
+	
+	III. CLASS COMPONENTS
+	
+		Além da maneira acima, onde definimos um componente como uma função JavaScript que será renderizada na forma de um PROP, também podemos definir componentes usando a nomeclatura do ES6 de classes.
+		
+		Para criar uma classe, há dois requirimentos mínimos: ela deve herdar de React.Component, e ela deve possuir um método render()
+		
+		Exemplo:
+		
+			class Sum extends React.Component{
+				render(){
+					return <h1>{props.a} + {props.b} = {props.a + props.b}</h1>;
+				}
+			}
+			
+			ReactDOM.render(<Sum a={4}, b={2}>) />, document.getElementById('root'));
+			
+	IV. STATE
+	
+		Junto às Props, é outra forma de armazenar valores nos componentes react;
+		
+		Representa um valor local e mutável que pode ser criado e atualizado dentro de um componente;
+		
+		Deve ser evitado sempre que possível, já que valores locais podem aumentar a complexidade de um componente;
+		
+	V. SETSTATE
+	
+		Faz um merge do novo state com o antigo state;
+		
+		Quando é informado um novo state, ele subescreve apenas as propriedades já existentes no state anterior. Exemplo:
+		
+			State antigo: { a = 3, b = 5  }
+			State novo:   { b = 8, c = 9  }
+			
+			Após o setState, eu terei:
+			
+				StateAtualizado: { a = 3, b = 8, c = 9  }
+				
+		Ao alterar, setState faz uma alteração em batch (assim, não há garantias que o estado será atualizado imediatamente);
+		
+	
+	
+	VI. JSX
+	
+		Permite que acrescentemos sintaxes parecidas com xml no javascript (o JXSTransformer é aquele quem converte isso em um JavaScript puro).
+		
+		Uma nova feature do JavaScript, o "spread sintax", é suportado pelo JSX, assim:
+		
+			const props = { a: 10, b:  20 };
+			const element = <Sum { ...props}/>;
+			
+		
+		Props
+		
+			Melhor forma de passar dados para dentro e fora de um componente;
+			
+		Ele é hierárquico - dessa forma, qualquer JSX pode ser filho de outros JSX contidos dentro da página. Você pode ter diversos elementos JSX dentro de um único componente JSX.
+		
+		Assim:
+		
+			<HELLO>
+				<FIRST />
+				<SECOND />
+			</HELLO>
+			
+		
+		
+	VII. REACT DATA FLOW
+	
+		Dados são passados no formato de árvore, onde os dados são passados para os componentes filhos (abaixo na hierarquia) através das propriedades PROPS, e de volta para os pais, passando os dados como argumentos das funções que foram passadas dentro dos props;
+		
+	
+	VIII. ESCAPE CHARACTER
+
+		React faz escape dos caracteres por default, buscando evitar um ataque de cross-site. Se quisermos inserir HTML não escapado, precisamos usar uma propriedade bem específica:
+		
+			<div dangerouslySetInnerHTML={__html="<strong>Hello</strong>"}
+			
+		Nesse exemplo, estamos injetando um texto que será renderizado como a mensagem "Hello" em negrito.
+		
+	IX. 
+	
+	
+	2. FORMS
+	
+	
+	I. FORM ELEMENTS
+	
+		React possue elementos de formulário próprios que são renderizados na tela. Eles são semelhantes aos elementos de HTML, mas possuem algumas poucas propriedades diferentes. Por exemplo: para definir que uma option de um SELECT está selecionada, precisamos definir seu valor no atributo "value" do próprio SELECT;
+		
+		Form-elements, por padrão, são read-only (isso ocorre para manter a simplicidade do react de apenas fazer um binding do estado da interface de usuário com o do modelo);
+		
+			Para permitir que o usuário insira valores sem quebrar a ideia de renderização do REACT, é através da propriedade "state" dos componentes.
+			
+				Como isso acontece? Bom, se criarmos um componente cuja propriedade "value" dos form elements estiver vinculada ao "state" do componente, no caso do "state" mudar, o valor dessas propriedades também muda. Assim, podemos receber os dados do cliente, mas manter a ideia original de renderização do react;
+				
+					O que ele não permitiria, por exemplo, é que os "value" fossem strings e aí, dinamicamente, essas strings mudassem com o input do usuário... mas, se usarmos o "state", o estado do componente, para armazenar os valores que podem vir a serem inseridos, aí tudo bem.
+					
+		
+	II. CLIENT SIDE ROUTING WITH HTML5
+	
+		PushState: É uma API do HTML5 que permite que o Javascript atualize a URL do browser sem fazer um trigger de request para o servidor.
+		
+		React Router: é um roteador client-side do react, que permite renderização condicional baseado nas rotas informadas. Quando uma rota é requisitada, o react router é quem decide qual componente utilizar como resposta.
+		
+			O componente Route possue duas propriedades:
+			
+				exact: faz com que ele só responda com o componente definido se o path da url for exatamente o mesmo do definido em código. Se ele não for especificado, o método se dará seguindo a lógica do "informed url begins with path...";
+				
+				path: define o "caminho da url" que o <Route /> te deve enxergar para responder com o componente associado;
+				
+	
+	3. STATE
+	
+	I. MODEL VIEW-INTENT ARCHITECTURE
+	
+		É um tipo de arquitetura criada para aplicações que funcionam apenas em client-side.
+		
+		Uma aplicação criada nesta arquitetura é descrita por três componentes: o model, a view e os intents. 
+		
+			Model: objeto simples que descreve completamente a interface do usuário;
+			
+			View: é a função que transforma o modelo na interface do usuário (ou seja: o model é o input da função View, e a interface de usuário é seu output). Quando o model muda, a função View consegue descrever as mudanças ocorridas;
+			
+			Intents: são produzidos pela interface do usuário; intents são as coisas que o usuário que fazer. 
+			
+		Ciclo: Quando um intent é produzido, ele é aplicado no model, criando um model atualizado, que então cai na View e produz uma nova interface de usuário.
+		
+		O que isso nos garante?
+		
+			1. O model é a fonte única de como a aplicação deve se comportar (toda a interface do usuário é descrita pelo model);
+			2. A view produzirá a interface usando apenas o model;
+			3. O model só pode ser alterado a partir do processamento dos intents dentro do model atual;
+			
+		
+	II. STATE CONTAINER
+	
+		É um contêiner responsável por armazenar um modelo e controlar as atualizações para aquele modelo;
+		
+		Ele possui, geralmente, três métodos:
+		
+			getState : retorna o state atual da aplicação que é armazenado pelo conteiner;
+			
+			dispatch: aplica um intent ao state da aplicação, produzindo um novo state;
+			
+			subscribe: registra um callback que será chamado quando o state da aplicação mudar;
+			
+		
+		Vantagens: Provê um nível de uniformização na forma como diferentes aplicativos são executados.
+		
+	
+	III. REDUX
+	
+		É um state container bem popular;
+		
+		Reducer: é a função que é usada para converter o state atual, junto da intenção, para um novo state. É chamado de reducer porque ele reduz um fluxo de intenções para um único objeto;
+		
+			Actions: É o mesmo que as intents, ou seja, os eventos que atualizam o estado do modelo (só que, no âmbito do redux, eles são chamados de Actions);
+			
+		Na API do redux, temos as seguintes opções:
+		
+			createStore() : função usada para criar uma nova "store", ou seja, um novo conteiner de armazenamento que irá gerenciar os estados da aplicação;
+			getState()    : retorna o estado atual da aplicação dentro da store;
+			dispatch()	  : envia uma action à store para ser aplicada sobre ao state atual - a action é processada pela função reducer (passada via parâmetros à API createStore()), criando um novo state para a aplicação;
+			subscribe()	  : registra uma função de callback que será chamada quando o estado (state) da aplicação mudar dentro da store;
+			
+	
+	IV. REACT-REDUX
+	
+		Provider: componente que permite, uma vez acrescentado à aplicação, que todos os componentes abaixo dele na árvore de filhos possam se conectar com a Store do Redux;
+		Connect: função que conecta os componentes React com a store do Redux de maneiras específicas;
+		
+			* mapStateToProps		: usada para definir quais os dados do Redux serão entregues aos componentes React como "props". É uma função da store do redux criada para enviar props para o componente react;
+			* mapDispatchToProps	: responsável por definir como o componente pode enviar actions para o store do redux. É uma função do dispatch do redux, fornecendo uma forma de mapear eventos para as actions da store do Redux;
+			
+	
+			
